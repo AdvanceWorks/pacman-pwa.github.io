@@ -1,4 +1,5 @@
 # Pac-Man
-Pac-Man game written in HTML5 + CSS3 + jQuery with Canvas. This WebApp is a Responsive Web Design (RWD) website.
+A PWA sample with Pac-man game. 
+Replaced the ghosts with AdvanceWorks logo and some of the technologies we use.
 
-<a href="https://pacman-e281c.firebaseapp.com">Play game</a>
+Forked from https://github.com/luciopanepinto/pacman
