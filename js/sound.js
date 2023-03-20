@@ -1,145 +1,204 @@
-var EATING_SOUND = new buzz.sound([
-    "./sound/eating.mp3" 
-]);
-var GHOST_EATEN_SOUND = new buzz.sound([
-	"./sound/ghost-eaten.mp3" 
-]);
-var EXTRA_LIFE_SOUND = new buzz.sound([
-    "./sound/extra-life.mp3" 
-]);
-var EAT_PILL_SOUND = new buzz.sound([
-    "./sound/eat-pill.mp3" 
-]);
-var EAT_FRUIT_SOUND = new buzz.sound([
-    "./sound/eat-fruit.mp3" 
-]);
-var EAT_GHOST_SOUND = new buzz.sound([
-    "./sound/eat-ghost.mp3" 
-]);
-var SIREN_SOUND = new buzz.sound([
-    "./sound/siren.mp3" 
-]);
-var WAZA_SOUND = new buzz.sound([
-    "./sound/waza.mp3" 
-]);
-var READY_SOUND = new buzz.sound([
-    "./sound/ready.mp3" 
-]);
-var DIE_SOUND = new buzz.sound([
-    "./sound/die.mp3" 
-]);
-
-var GROUP_SOUND = new buzz.group( [ EATING_SOUND, SIREN_SOUND, EAT_PILL_SOUND, EAT_GHOST_SOUND, READY_SOUND, DIE_SOUND, WAZA_SOUND, GHOST_EATEN_SOUND, EXTRA_LIFE_SOUND, EAT_FRUIT_SOUND ] );
+var EATING_SOUND = 'sound/eating.mp3';
+var GHOST_EATEN_SOUND = 'sound/ghost-eaten.mp3';
+var EXTRA_LIFE_SOUND = 'sound/extra-life.mp3';
+var EAT_PILL_SOUND = 'sound/eat-pill.mp3';
+var EAT_FRUIT_SOUND = 'sound/eat-fruit.mp3';
+var EAT_GHOST_SOUND = 'sound/eat-ghost.mp3';
+var SIREN_SOUND = 'sound/siren.mp3';
+var WAZA_SOUND = 'sound/waza.mp3';
+var READY_SOUND = 'sound/ready.mp3';
+var DIE_SOUND = 'sound/die.mp3';
 
 var EATING_SOUND_LOOPING = false;
+var MUTED_SOUND = false;
 
-function isAvailableSound() { 
-	return !($("#sound").css("display") === "none");
-}
+var eatingSound;
+var ghostEatenSound;
+var extraLifeSound;
+var eatPillSound;
+var eatFruitSound;
+var eatGhostSound;
+var sirenSound;
+var wazaSound;
+var readySound;
+var dieSound;
 
-function loadAllSound() { 
-	if ( isAvailableSound() ) GROUP_SOUND.load();
-}
 
-function playEatingSound() { 
-	if (isAvailableSound()) { 
-		if ( !EATING_SOUND_LOOPING ) { 
-			EATING_SOUND_LOOPING = true;
-			
-			EATING_SOUND.setSpeed(1.35);
-			EATING_SOUND.loop();
-			EATING_SOUND.play();
-		}
-	}
-}
-function stopEatingSound() { 
-	if (isAvailableSound()) { 
-		if ( EATING_SOUND_LOOPING ) { 
-			EATING_SOUND.unloop();
-			EATING_SOUND_LOOPING = false;
-		}
-	}
+function isAvailableSound() {
+    return !HOME && !MUTED_SOUND;
 }
 
-function playExtraLifeSound() { 
-	if (isAvailableSound()) { 
-		EXTRA_LIFE_SOUND.play();
-	}
+function loadAllSound() {
+    if (!HOME) {
+        eatingSound = new Howl({
+            src: [EATING_SOUND],
+            loop: true,
+            rate: 1.25
+        });
+        ghostEatenSound = new Howl({
+            src: [GHOST_EATEN_SOUND],
+            loop: true
+        });
+        extraLifeSound = new Howl({
+            src: [EXTRA_LIFE_SOUND]
+        });
+        eatPillSound = new Howl({
+            src: [EAT_PILL_SOUND]
+        });
+        eatFruitSound = new Howl({
+            src: [EAT_FRUIT_SOUND]
+        });
+        eatGhostSound = new Howl({
+            src: [EAT_GHOST_SOUND]
+        });
+        sirenSound = new Howl({
+            src: [SIREN_SOUND],
+            loop: true
+        });
+        wazaSound = new Howl({
+            src: [WAZA_SOUND],
+            loop: true
+        });
+        readySound = new Howl({
+            src: [READY_SOUND]
+        });
+        dieSound = new Howl({
+            src: [DIE_SOUND]
+        });
+    }
 }
 
-function playEatFruitSound() { 
-	if (isAvailableSound()) { 
-		EAT_FRUIT_SOUND.play();
-	}
-}
-function playEatPillSound() { 
-	if (isAvailableSound()) { 
-		EAT_PILL_SOUND.play();
-	}
-}
-function playEatGhostSound() { 
-	if (isAvailableSound()) { 
-		EAT_GHOST_SOUND.play();
-	}
+function stopEatSound() {
+    if (isAvailableSound()) {
+        ghostEatenSound.stop();
+    }
 }
 
-function playWazaSound() { 
-	if (isAvailableSound()) { 
-		stopSirenSound();
-		stopEatSound();
-		WAZA_SOUND.loop();
-		WAZA_SOUND.play();
-	}
-}
-function stopWazaSound() { 
-	if (isAvailableSound()) { 
-		WAZA_SOUND.stop();
-	}
+function stopSirenSound() {
+    if (isAvailableSound()) {
+        sirenSound.stop();
+    }
 }
 
-function playGhostEatenSound() { 
-	if (isAvailableSound()) { 
-		stopSirenSound();
-		stopWazaSound();
-		GHOST_EATEN_SOUND.play();
-		GHOST_EATEN_SOUND.loop();
-	}
-}
-function stopEatSound() { 
-	if (isAvailableSound()) { 
-		GHOST_EATEN_SOUND.stop();
-	}
+function stopEatingSound() {
+    if (isAvailableSound() && EATING_SOUND_LOOPING) {
+        eatingSound.stop();
+        EATING_SOUND_LOOPING = false;
+    }
 }
 
-function playSirenSound() { 
-	if (isAvailableSound()) { 
-		stopWazaSound();
-		stopEatSound();
-		SIREN_SOUND.loop();
-		SIREN_SOUND.play();
-	}
-}
-function stopSirenSound() { 
-	if (isAvailableSound()) { 
-		SIREN_SOUND.stop();
-	}
+function stopWazaSound() {
+    if (isAvailableSound()) {
+        wazaSound.stop();
+    }
 }
 
-function playReadySound() { 
-	if (isAvailableSound()) { 
-		READY_SOUND.play();
-	}
+function stopAllSound() {
+    if (isAvailableSound()) {
+        eatingSound.stop();
+        ghostEatenSound.stop();
+        extraLifeSound.stop();
+        eatPillSound.stop();
+        eatFruitSound.stop();
+        eatGhostSound.stop();
+        sirenSound.stop();
+        wazaSound.stop();
+        readySound.stop();
+        dieSound.stop();
+    }
 }
 
-function playDieSound() { 
-	if (isAvailableSound()) { 
-		GROUP_SOUND.stop();
-		DIE_SOUND.play();
-	}
+function playEatingSound() {
+    if (isAvailableSound() && !EATING_SOUND_LOOPING) {
+        EATING_SOUND_LOOPING = true;
+        eatingSound.play();
+    }
 }
 
-function stopAllSound() { 
-	if (isAvailableSound()) { 
-		GROUP_SOUND.stop();
-	}
+function playExtraLifeSound() {
+    if (isAvailableSound()) {
+        extraLifeSound.play();
+    }
+}
+
+function playEatFruitSound() {
+    if (isAvailableSound()) {
+        eatFruitSound.play();
+    }
+}
+
+function playEatPillSound() {
+    if (isAvailableSound()) {
+        eatPillSound.play();
+    }
+}
+
+function playEatGhostSound() {
+    if (isAvailableSound()) {
+        eatGhostSound.play();
+    }
+}
+
+function playWazaSound() {
+    if (isAvailableSound()) {
+        stopSirenSound();
+        stopEatSound();
+        wazaSound.play();
+    }
+}
+
+function playGhostEatenSound() {
+    if (isAvailableSound()) {
+        stopSirenSound();
+        stopWazaSound();
+        ghostEatenSound.play();
+    }
+}
+
+function playSirenSound() {
+    if (isAvailableSound()) {
+        stopWazaSound();
+        stopEatSound();
+        sirenSound.play();
+    }
+}
+
+function playReadySound() {
+    if (isAvailableSound()) {
+        readySound.play();
+    }
+}
+
+function playDieSound() {
+    if (isAvailableSound()) {
+        stopAllSound();
+        dieSound.play();
+    }
+}
+
+function muteAllSound() {
+    MUTED_SOUND = true;
+    if (!HOME) {
+        setAllSoundMuteStatus();
+    }
+}
+
+function unmuteAllSound() {
+    MUTED_SOUND = false;
+    if (!HOME) {
+        setAllSoundMuteStatus();
+    }
+}
+
+function setAllSoundMuteStatus() {
+    eatingSound.mute(MUTED_SOUND);
+    ghostEatenSound.mute(MUTED_SOUND);
+    extraLifeSound.mute(MUTED_SOUND);
+    eatPillSound.mute(MUTED_SOUND);
+    eatFruitSound.mute(MUTED_SOUND);
+    eatGhostSound.mute(MUTED_SOUND);
+    sirenSound.mute(MUTED_SOUND);
+    wazaSound.mute(MUTED_SOUND);
+    readySound.mute(MUTED_SOUND);
+    dieSound.mute(MUTED_SOUND);
 }

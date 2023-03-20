@@ -1,9 +1,9 @@
-function isPointInRect(point, rect) { 
-	if (rect.width <= 0 || rect.height <= 0) { 
-		return false;
-	} else { 
-		return (point.x >= rect.x && point.x <= rect.x + rect.width && point.y >= rect.y && point.y <= rect.y + rect.height);
-	}
+function isPointInRect(point, rect) {
+    if (rect.width <= 0 || rect.height <= 0) {
+        return false;
+    } else {
+        return (point.x >= rect.x && point.x <= rect.x + rect.width && point.y >= rect.y && point.y <= rect.y + rect.height);
+    }
 }
 
 function Timer(callback, delay) {
@@ -14,13 +14,13 @@ function Timer(callback, delay) {
         started = new Date()
         id = setTimeout(callback, remaining)
     }
-	
+    
     this.resume = function() {
         running = true
         started = new Date()
         id = setTimeout(callback, remaining)
     }
-	
+    
     this.cancel = function() {
         running = false
         clearTimeout(id)
@@ -49,20 +49,20 @@ function Timer(callback, delay) {
     this.start();
 }
 
-function oneAxe() { 
-	return Math.floor( Math.random() * ( 2 - 1 + 1 ) + 1 );
+function oneAxe() {
+    return Math.floor( Math.random() * ( 2 - 1 + 1 ) + 1 );
 }
-function anyGoodIdea() { 
-	return Math.floor( Math.random() * ( 4 - 1 + 1 ) + 1 );
+function anyGoodIdea() {
+    return Math.floor( Math.random() * ( 4 - 1 + 1 ) + 1 );
 }
-function whatsYourProblem() { 
-	return Math.floor( Math.random() * ( 6 - 1 + 1 ) + 1 );
+function whatsYourProblem() {
+    return Math.floor( Math.random() * ( 6 - 1 + 1 ) + 1 );
 }
 
 CanvasRenderingContext2D.prototype.roundRect = function(sx, sy, ex, ey, r) {
     var r2d = Math.PI/180;
-    if( ( ex - sx ) - ( 2 * r ) < 0 ) { r = ( ( ex - sx ) / 2 ); } 
-    if( ( ey - sy ) - ( 2 * r ) < 0 ) { r = ( ( ey - sy ) / 2 ); } 
+    if( ( ex - sx ) - ( 2 * r ) < 0 ) {r = ( ( ex - sx ) / 2 ); } 
+    if( ( ey - sy ) - ( 2 * r ) < 0 ) {r = ( ( ey - sy ) / 2 ); } 
     this.beginPath();
     this.moveTo(sx+r,sy);
     this.lineTo(ex-r,sy);
@@ -77,7 +77,7 @@ CanvasRenderingContext2D.prototype.roundRect = function(sx, sy, ex, ey, r) {
 }
 
 CanvasRenderingContext2D.prototype.oval = function(centerX, centerY, width, height) {
-	
+    
   this.beginPath();
   
   this.moveTo(centerX, centerY - height/2); 
